@@ -151,9 +151,24 @@
       this.classList.toggle('open');
     }
 
+    function toggleActive(e){
+      // normally you would write it as the line below except we will have multiple transitionend events
+      // this.classList.toggle('open-active')
+      console.log(e.propertyName);
+      // due to bug in safari, if statement is written as seen, otherwise it would be written
+      // if (e.propertyName === 'flex-grow')
+      if (e.propertyName.includes('flex')){
+        this.classList.toggle('open-active');
+      }
+    }
+
     // listen for a click on each panel
     panels.forEach(panel => panel.addEventListener('click', toggleOpen));
     // if it was written toggleOpen() then it would happen on page load rather than on actual click
+
+    // to bring in the word from the top and bottom at the event transitionend to toggle class of toggleActive 
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+
   </script>
 
 
