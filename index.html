@@ -26,6 +26,8 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      /* display images side by side */
+      display: flex;
     }
 
     .panel {
@@ -43,6 +45,15 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      /* display images based on length of longest single word and evenly distribute extra space */
+      flex: 1;
+      /* center items left to right */
+      justify-content: center;
+      align-items: center;
+      /* flex default will display from left to right */
+      display: flex;
+      /* arrange items in an up down manner */
+      flex-direction: column;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -51,12 +62,34 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
-    /* Flex Children */
+    /* Flex Children or Flex Items */
     .panel > * {
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
+      /* add border to each flex piece to see how things work */
+      border: 1px solid red;
+      /* make each item take up 1/3 of the column */
+      flex: 1 0 auto;
+      /* add below line will shift items to align left */
+      display: flex;
+      /* below two lines need above line and then can center item in each box */
+      justify-content: center;
+      align-items: center;
+
     }
+
+    /* how to make top words look like they are off of the page */
+    .panel > *:first-child {transform: translateY(-100%)}
+    /* animation occurs with next line to make word appear when class open-active is applied */
+    .panel.open-active > *:first-child {transform: translateY(0)}
+
+    /* how to make bottom words look like they are off of the page */ 
+    .panel > *:last-child {transform: translateY(100%)}
+    /* animation occurs with next line to make word appear when class open-active is applied */
+    .panel.open-active > *:last-child {transform: translateY(0)}
+
+
 
     .panel p {
       text-transform: uppercase;
@@ -70,6 +103,9 @@
     }
 
     .panel.open {
+      /* with a class of open, font will increase inside of panel 5x the amount of extra room */
+      /* this is found in the transition part of .panel */
+      flex: 5;
       font-size: 40px;
     }
 
@@ -105,7 +141,19 @@
   </div>
 
   <script>
+    // add and remove classes to trigger the transition effect
+    // below grabs all of the panels and gets a node list of all the ones we have
+    const panels = document.querySelectorAll('.panel');
 
+    // function that will toggle between the class of open
+    function toggleOpen() {
+      console.log("howdy");
+      this.classList.toggle('open');
+    }
+
+    // listen for a click on each panel
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    // if it was written toggleOpen() then it would happen on page load rather than on actual click
   </script>
 
 
